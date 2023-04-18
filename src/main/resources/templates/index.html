@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+  <!-- DataTables -->
+  <link rel="stylesheet" th:href="@{/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css}">
+  <link rel="stylesheet" th:href="@{/plugins/datatables-responsive/css/responsive.bootstrap4.min.css}">
+  <link rel="stylesheet" th:href="@{/plugins/datatables-buttons/css/buttons.bootstrap4.min.css}">
+  <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Danh sách mừng cưới</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-lg">
+        Thêm mới
+      </button>
+      <table id="data_table" class="table table-bordered table-striped">
+        <thead>
+        <tr>
+          <th>Người mừng</th>
+          <th>Số tiền mừng</th>
+          <th>Địa chỉ</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>Anh Hưng</td>
+          <td>1000000</td>
+          <td>Xóm 3</td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+          <th>Người mừng</th>
+          <th>Số tiền mừng</th>
+          <th>Địa chỉ</th>
+        </tr>
+        </tfoot>
+      </table>
+    </div>
+    <!-- /.card-body -->
+  </div>
+  <div class="modal fade" id="modal-lg">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Thêm người mừng</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="quickForm">
+            <div class="card-body">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Người mừng</label>
+                <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+              </div>
+              <div class="form-group">
+                <label for="ad1">Số tiền</label>
+                <input type="number" name="password" class="form-control" id="ad1" placeholder="Password">
+              </div>
+              <div class="form-group">
+                <label for="ad2">Địa chỉ</label>
+                <input type="password" name="password" class="form-control" id="ad2" placeholder="Password">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+</div>
+<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- DataTables  & Plugins -->
+<script th:src="@{/plugins/datatables/jquery.dataTables.min.js}"></script>
+<script th:src="@{/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js}"></script>
+<script th:src="@{/plugins/datatables-responsive/js/dataTables.responsive.min.js}"></script>
+<script th:src="@{/plugins/datatables-responsive/js/responsive.bootstrap4.min.js}"></script>
+<script th:src="@{/plugins/datatables-buttons/js/dataTables.buttons.min.js}"></script>
+<script th:src="@{/plugins/datatables-buttons/js/buttons.bootstrap4.min.js}"></script>
+<script th:src="@{/plugins/jszip/jszip.min.js}"></script>
+<script th:src="@{/plugins/pdfmake/pdfmake.min.js}"></script>
+<script th:src="@{/plugins/pdfmake/vfs_fonts.js}"></script>
+<script th:src="@{/plugins/datatables-buttons/js/buttons.html5.min.js}"></script>
+<script th:src="@{/plugins/datatables-buttons/js/buttons.print.min.js}"></script>
+<script th:src="@{/plugins/datatables-buttons/js/buttons.colVis.min.js}"></script>
+<script>
+    $(document).ready(function(){
+        /*call api*/
+
+        $("#data_table").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false
+        }).buttons().container().appendTo('#data_table_wrapper .col-md-6:eq(0)');
+    });
+</script>
+</body>
+</html>
