@@ -26,6 +26,12 @@ public class ContactController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping
+    public ResponseEntity<Void> update(@RequestBody ContactRequest req) {
+        service.save(req);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/pagination")
     public ResponseEntity<Page<Contact>> findByName(@RequestParam(required = false) String name,
                                                     @RequestParam(defaultValue = "0") int page,
