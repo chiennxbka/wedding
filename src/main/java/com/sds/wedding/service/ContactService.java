@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ContactService implements IContactService{
+public class ContactService implements IContactService {
+
+    // commit demo
 
     @Autowired
     private ContactRepository repository;
