@@ -21,9 +21,9 @@ public class ContactController {
     private IContactService service;
 
     @PostMapping
-    public ResponseEntity<Void> save(@RequestBody ContactRequest req) {
+    public ResponseEntity<ContactRequest> save(@RequestBody ContactRequest req) {
         service.save(req);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(req);
     }
 
     @GetMapping("/pagination")
