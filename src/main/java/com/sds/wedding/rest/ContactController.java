@@ -40,4 +40,10 @@ public class ContactController {
         List<Contact> contacts = service.findAll();
         return ResponseEntity.ok(contacts);
     }
+
+    @GetMapping("/autocomplete")
+    public ResponseEntity<List<String>> findAllAddress(@RequestParam(required = false) String query) {
+        List<String> allAddress = service.findAllAddress(query);
+        return ResponseEntity.ok(allAddress);
+    }
 }

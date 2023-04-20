@@ -14,4 +14,6 @@ public interface IContactService {
     Page<Contact> findByName(String name, Pageable pageable);
 
     List<Contact> findAll();
+
+    List<String> findAllAddress(String query);
 }

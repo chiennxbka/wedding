@@ -33,4 +33,9 @@ public class ContactService implements IContactService {
     public List<Contact> findAll() {
         return repository.findAll();
     }
+
+    @Override
+    public List<String> findAllAddress(String query) {
+        return repository.findDistinctAddress(query);
+    }
 }
