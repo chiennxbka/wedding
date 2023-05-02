@@ -13,7 +13,7 @@
   <link rel="stylesheet" th:href="@{/plugins/datatables-responsive/css/responsive.bootstrap4.min.css}">
   <link rel="stylesheet" th:href="@{/plugins/datatables-buttons/css/buttons.bootstrap4.min.css}">
   <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
-  <style th:type="text/css">
+  <style type="text/css">
       /*.autocomplete-suggestions {
           border: 1px solid #999;
           background: #fff;
@@ -136,7 +136,7 @@
               </div>
               <div class="form-group">
                 <label for="amount">Số tiền</label>
-                <input type="number" name="amount" class="form-control" id="amount" placeholder="Số tiền mừng">
+                <input type="text" name="amount" class="form-control" id="amount" placeholder="Số tiền mừng">
               </div>
               <div class="form-group">
                 <label for="address">Địa chỉ</label>
@@ -177,7 +177,7 @@
         function init() {
             $.ajax({
                 url: '/api/v1/contact',
-                contentType : 'application/json',
+                contentType: 'application/json',
                 type: 'get',
                 dataType: 'json'
             }).done(function (response) {
@@ -190,7 +190,7 @@
                 })//.buttons().container().appendTo('#data_table_wrapper .col-md-6:eq(0)');
             });
 
-            $('#address').autocomplete({
+            /*$('#address').autocomplete({
                 serviceUrl: '/api/v1/contact/autocomplete',
                 paramName: 'query',
                 delimiter: ',',
@@ -201,7 +201,7 @@
                         })
                     };
                 }
-            });
+            });*/
             /*$.ajax({
                 url: '/api/v1/contact/autocomplete',
                 contentType : 'application/json',
@@ -219,13 +219,13 @@
             $('#save-data').prop('disabled', true);
             let data = {
                 name: $("#name").val(),
-                amount: $("#amount").val(),
+                amount: $("#amount").val().replace(',',''),
                 address: $("#address").val(),
             }
             $.ajax({
                 url: '/api/v1/contact',
                 type: 'post',
-                contentType : 'application/json',
+                contentType: 'application/json',
                 dataType: 'json',
                 data: JSON.stringify({
                     name: data.name,
@@ -245,6 +245,96 @@
             $('#quickForm')[0].reset();
         });
         init();
+
+        $("#amount").on({
+            keyup: function () {
+                let input_val = $(this).val();
+                input_val = numberToCurrency(input_val);
+                $(this).val(input_val);
+            },
+            blur: function () {
+                let input_val = $(this).val();
+                input_val = numberToCurrency(input_val, true, true);
+                $(this).val(input_val);
+            }
+        });
+
+        const numberToCurrency = function (input_val, fixed = false, blur = false) {
+            // don't validate empty input
+            if (!input_val) {
+                return "";
+            }
+
+            if (blur) {
+                if (input_val === "" || input_val === 0) {
+                    return 0;
+                }
+            }
+
+            if (input_val.length === 1) {
+                return parseInt(input_val);
+            }
+
+            input_val = '' + input_val;
+
+            let negative = '';
+            if (input_val.substr(0, 1) === '-') {
+                negative = '-';
+            }
+            // check for decimal
+            if (input_val.indexOf(".") >= 0) {
+                // get position of first decimal
+                // this prevents multiple decimals from
+                // being entered
+                var decimal_pos = input_val.indexOf(".");
+
+                // split number by decimal point
+                var left_side = input_val.substring(0, decimal_pos);
+                var right_side = input_val.substring(decimal_pos);
+
+                // add commas to left side of number
+                left_side = left_side.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+                if (fixed && right_side.length > 3) {
+                    right_side = parseFloat(0 + right_side).toFixed(2);
+                    right_side = right_side.substr(1, right_side.length);
+                }
+
+                // validate right side
+                right_side = right_side.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+                // Limit decimal to only 2 digits
+                if (right_side.length > 2) {
+                    right_side = right_side.substring(0, 2);
+                }
+
+                if (blur && parseInt(right_side) === 0) {
+                    right_side = '';
+                }
+
+                // join number by .
+                // input_val = left_side + "." + right_side;
+
+                if (blur && right_side.length < 1) {
+                    input_val = left_side;
+                } else {
+                    input_val = left_side + "." + right_side;
+                }
+            } else {
+                // no decimal entered
+                // add commas to number
+                // remove all non-digits
+                input_val = input_val.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+
+            if (input_val.length > 1 && input_val.substr(0, 1) === '0' && input_val.substr(0, 2) !== '0.') {
+                input_val = input_val.substr(1, input_val.length);
+            } else if (input_val.substr(0, 2) === '0,') {
+                input_val = input_val.substr(2, input_val.length);
+            }
+
+            return negative + input_val;
+        };
     });
 </script>
 </body>

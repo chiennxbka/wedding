@@ -11,6 +11,8 @@ public class Contact {
 
     private String name;
 
+    private String aliasName;
+
     private double amount;
 
     private String address;
@@ -20,7 +22,8 @@ public class Contact {
     }
 
     public Contact(String name, double amount, String address) {
-        this.name = name;
+        this.aliasName = name.substring(0, (name.indexOf(" ")));
+        this.name = name.substring(name.indexOf(" "));
         this.amount = amount;
         this.address = address;
     }
@@ -34,7 +37,7 @@ public class Contact {
     }
 
     public String getName() {
-        return name;
+        return aliasName.concat(" " + name);
     }
 
     public void setName(String name) {
@@ -51,6 +54,14 @@ public class Contact {
 
     public double getAmount() {
         return amount;
+    }
+
+    public String getAliasName() {
+        return aliasName;
+    }
+
+    public void setAliasName(String aliasName) {
+        this.aliasName = aliasName;
     }
 
     public void setAmount(double amount) {
